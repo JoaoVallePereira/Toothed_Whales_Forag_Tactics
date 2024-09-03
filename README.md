@@ -1,8 +1,12 @@
 # README #
+<img src="man/logo_git_OFT.png" align="right" width="180px"/>
 
-## Author, maintainer and contact 
+Author, maintainer and contact 
 
-João V. S. do Valle-Pereira[![](https://orcid.org/sites/default/files/images/orcid_16x16.png)](http://orcid.org/0000-0002-1880-9495): joao.vallepereira@oregonstate.edu       
+João V. S. do Valle-Pereira[![](https://orcid.org/sites/default/files/images/orcid_16x16.png)](http://orcid.org/0000-0002-1880-9495): joao.vallepereira@oregonstate.edu     
+
+&nbsp;
+&nbsp;
 
 
 --------------------------------------
