@@ -9,10 +9,17 @@ if(!require(rnaturalearth)){install.packages('rnaturalearth'); library(rnaturale
 if(!require(rnaturalearthhires)){install.packages('rnaturalearthhires'); library(rnaturalearthhires)}
 if(!require(rvest)){install.packages('rvest'); library(rvest)}
 if(!require(scales)){install.packages('scales'); library(scales)}
+if(!require(networkD3)){install.packages('networkD3'); library(networkD3)}
+if(!require(htmlwidgets)){install.packages('htmlwidgets'); library(htmlwidgets)}
+if(!require(ggraph)){install.packages('ggraph'); library(ggraph)}
+if(!require(igraph)){install.packages('igraph'); library(igraph)}
 
 
-## Functions
-# 
+
+## Functions ----
+
+
+
 #'@author Alexandre M. S. Machado
 #'
 #'@param data data frame from labirinto table
@@ -36,3 +43,21 @@ summarise_links <- function(data, by, broad, specific) {
     dplyr::group_by(!!!grouping_vars) |>
     dplyr::summarise(total_specific = sum(specific_count, na.rm = TRUE), .groups = 'drop')
 }
+
+# Colorblind safe palette for plots
+
+colorblind_safe_cat <- c("#7B3294", "#1B9E77","#A6CEE3","#C2A5CF","#B3E2CD","#7FC97F", "#1B9E77","#FDB863","#F4A582", "#8DD3C7","#A6611A","#CA0020")
+
+dataTable$tactic_cat_fact <- factor(dataTable$tactic_broad,
+                                    levels = c("Fisheries interaction",
+                                               "Cooperative fishery",
+                                               "Begging",
+                                               "Provisioning",
+                                               "Aquaculture",
+                                               "Beaching/stranding",
+                                               "Prey herding",
+                                               "Prey stunning/startling",
+                                               "Prey species specialization",
+                                               "Seabird interaction",
+                                               "Tool use"))
+
