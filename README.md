@@ -39,10 +39,40 @@ DOI:
 
 ### 1.1. Data and script to reproduce the analysis
 
-- `Setup.R`: This file contains the code to install and load the packages, and the functions required to run the analyses in `.R`.
+- `Setup.R`: This file contains the code to install and load the packages and the functions required to run the figures in `.R`.
 
 - `.R`: This file contains the code to manage, clean, and prepare the data to be run in the `.R` script.
-- 
+
+| Variable                                 | Class              | Description                            |
+|------------------------------------------|--------------------|----------------------------------------|
+| common_name                              | Character          |                                        |
+| latin_name                               | Character          |                                        |
+| animal_identity_data                     | Character          |                                        |
+| number_of_animals                        | Character          |                                        |
+| foraging_category                        | Character          |                                        |
+| foraging_tactic                          | Character          |                                        |
+| tactic_driver                            | Character          |                                        |
+| human_induced                            | Character          |                                        |
+| prey_category                            | Character          |                                        |
+| putative_specialised_foraging_tactic     | Character          |                                        |
+| putative_cultural_foraging_tactic        | Character          |                                        |
+| transmission_direction                   | Character          |                                        |
+| nature_of_social_learning_evidence       | Character          |                                        |
+| culture_acknowledgement                  | Character          |                                        |
+| evidence_for_discreteness_significance   | Character          |                                        |
+| threat_acknowledgement                   | Character          |                                        |
+| threat_category                          | Character          |                                        |
+| threat_subcategory                       | Character          |                                        |
+| threat_direction                         | Character          |                                        |
+| conservation_actions_acknowledgement     | Character          |                                        |
+| existing_conservation_actions_category   | Character          |                                        |
+| existing_conservation_actions_subcategory| Character          |                                        |
+| proposed_conservation_actions_category   | Character          |                                        |
+| proposed_conservation_actions_subcategory| Character          |                                        |
+| references                               | Character          |                                        |
+| tactic_cat_fact                          | Factor (10 levels) |                                        |
+| evidence                                 | Character          |                                        |
+
 
 ### 1.2. Instructions
 
