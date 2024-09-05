@@ -36,42 +36,47 @@ DOI:
     * 1.1. Data and script to reproduce the figures
     * 1.2. Instructions
 
-### 1.1. Data and script to reproduce the analysis
+### 1.1. Scripts to reproduce the figures
 
 - `Setup.R`: This file contains the code to install and load the packages and the functions required to run the figures in `.R`.
+- `Load_Data.R`: This file contains the code to load and clean the data.
+- `Figure2_GenerateBarplots.R`: This file contains the code to generate the bar plots from Figure 2 of the paper.
+- `Figure2_GenerateCircleplot.R`: This file contains the code to generate the circle plot from Figure 2 of the paper.
+- `Figure2_GenerateSankey.R`: This file contains the code to generate the sankey plot from Figure 2 of the paper.
+- `Figure2_GenerateMaps.R`: This file contains the code to generate the map from Figure 2 of the paper.
+- `Figure3_GenerateNetworks.R`: This file contains the code to generate the networks from Figure 3 of the paper.
 
-- `.R`: This file contains the code to manage, clean, and prepare the data to be run in the `.R` script.
+- `Figure2_GenerateBarplots.R`: This file contains the code to manage, clean, and prepare the data to be run in the `.R` script.
 
 | Variable                                 | Class              | Description                            |
 |------------------------------------------|--------------------|----------------------------------------|
-| common_name                              | Character          |                                        |
-| latin_name                               | Character          |                                        |
-| animal_identity_data                     | Character          |                                        |
-| number_of_animals                        | Character          |                                        |
-| foraging_category                        | Character          |                                        |
-| foraging_tactic                          | Character          |                                        |
-| tactic_driver                            | Character          |                                        |
-| human_induced                            | Character          |                                        |
-| prey_category                            | Character          |                                        |
-| putative_specialised_foraging_tactic     | Character          |                                        |
-| putative_cultural_foraging_tactic        | Character          |                                        |
-| transmission_direction                   | Character          |                                        |
-| nature_of_social_learning_evidence       | Character          |                                        |
-| culture_acknowledgement                  | Character          |                                        |
-| evidence_for_discreteness_significance   | Character          |                                        |
-| threat_acknowledgement                   | Character          |                                        |
-| threat_category                          | Character          |                                        |
-| threat_subcategory                       | Character          |                                        |
-| threat_direction                         | Character          |                                        |
-| conservation_actions_acknowledgement     | Character          |                                        |
-| existing_conservation_actions_category   | Character          |                                        |
-| existing_conservation_actions_subcategory| Character          |                                        |
-| proposed_conservation_actions_category   | Character          |                                        |
-| proposed_conservation_actions_subcategory| Character          |                                        |
-| references                               | Character          |                                        |
-| tactic_cat_fact                          | Factor (10 levels) |                                        |
-| evidence                                 | Character          |                                        |
-
+| common_name                              | Character          | The common name of the species exhibiting the foraging tactic   |
+| latin_name                               | Character          | The Latin name of the species exhibiting the foraging tactic|
+| animal_identity_data                     | Character          | Whether identity information for the individual(s) exhibiting the foraging tactic is available    |
+| number_of_animals                        | Character          | The number of different individuals exhibiting the foraging tactic                                       |
+| foraging_category                        | Character          | The broad foraging category that the specific foraging tactic most closely aligns with                      |
+| foraging_tactic                          | Character          | The specific foraging tactic                                       |
+| tactic_driver                            | Character          | The key factor influencing or determining the observed foraging tactic                         |
+| human_induced                            | Character          | Whether the foraging tactic is human-induced or not                   |
+| prey_category                            | Character          | The type of prey being targeted during the foraging tactic                                       |
+| habitat                                  | Character          | The type of habitat in which the foraging tactic is exhibited                                       |
+| prey_category                            | Character          | The type of prey being targeted during the foraging tactic                                       |
+| putative_specialised_foraging_tactic     | Character          | Foraging tactics having both individual identity information and evidence of being shared among conspecifics|
+| putative_cultural_foraging_tactic        | Character          | Foraging tactics with positive evidence of social learning                                       |
+| transmission_direction                   | Character          | How the foraging tactic is transmitted, given positive evidence of social learning                          |
+| nature_of_social_learning_evidence       | Character          | The type of evidence for social learning                                     |
+| culture_acknowledgement                  | Character          | The type of evidence for social learning                                      |
+| evidence_for_discreteness_significance   | Character          | Evidence for differences in diet or foraging techniques that are stable                                       |
+| threat_acknowledgement                   | Character          | Whether the reviewed studies acknowledge anthropogenic threats          |
+| threat_category                          | Character          | For studies that acknowledge anthropogenic threats and impacts, the type of IUCN-CMP first-level threat classification  |
+| threat_subcategory                       | Character          | For studies that acknowledge anthropogenic threats and impacts, the type of IUCN-CMP second-level threat classification|
+| threat_direction                         | Character          | Whether the acknowledged threats were considered a threat to or a consequence of the foraging tactic   |
+| conservation_actions_acknowledgement     | Character          | Whether the reviewed studies acknowledge existing or proposed conservation actions related to the foraging tactic  |
+| existing_conservation_actions_category   | Character          | Existing conservation actions related to the foraging tactic, the type of IUCN-CMP first-level action classification  |
+| existing_conservation_actions_subcategory| Character          | Existing conservation actions related to the foraging tactic, the type of IUCN-CMP second-level action classification  |
+| proposed_conservation_actions_category   | Character          | Proposed conservation actions related to the foraging tactic, the type of IUCN-CMP first-level action classification    |
+| proposed_conservation_actions_subcategory| Character          | Proposed conservation actions related to the foraging tactic, the type of IUCN-CMP second-level action classification   |
+| references                               | Character          | Reviewed primary and secondary literature used to fill out metrics for the foraging tactic |
 
 ### 1.2. Instructions
 
@@ -79,11 +84,66 @@ Scripts contain relative paths to source functions and load data. Open an R sess
 
 ```bash
 Toothed_Whales_Forag_Tactics/
-├── R/                        # contains the code to setup generate the figures
-├── figures/                  # stores tables and figures # NOTHING FOR NOW
-└── man/                      # contains figures to implement in the GitHub layout
+├── R/                        # contains the code to generate the figures
+├── figures/                  # stores figures 
+└── man/                      # contain the figure to implement in the GitHub layout
 ```
-**Note:** The workflow to run at the time of this message is:  `Setup.R` &rarr; `Load_data.R` &rarr; `FigureX_GenerateX.R`. 
+
+### This paper was produced using the following software and associated packages:
+
+```bash
+
+R version 4.4.1 (2024-06-14 ucrt)
+Platform: x86_64-w64-mingw32/x64
+Running under: Windows 11 x64 (build 22631)
+
+Matrix products: default
+
+
+locale:
+[1] LC_COLLATE=English_United States.utf8  LC_CTYPE=English_United States.utf8   
+[3] LC_MONETARY=English_United States.utf8 LC_NUMERIC=C                          
+[5] LC_TIME=English_United States.utf8    
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+ [1] rnaturalearthhires_1.0.0.9000 webshot_0.5.5                 devtools_2.4.5               
+ [4] usethis_3.0.0                 igraph_2.0.3                  ggraph_2.2.1                 
+ [7] htmlwidgets_1.6.4             networkD3_0.4                 scales_1.3.0                 
+[10] rvest_1.0.4                   rnaturalearth_1.0.1           here_1.0.1                   
+[13] sf_1.0-16                     ggpubr_0.6.0                  janitor_2.2.0                
+[16] lubridate_1.9.3               forcats_1.0.0                 stringr_1.5.1                
+[19] dplyr_1.1.4                   purrr_1.0.2                   readr_2.1.5                  
+[22] tidyr_1.3.1                   tibble_3.2.1                  ggplot2_3.5.1                
+[25] tidyverse_2.0.0              
+
+loaded via a namespace (and not attached):
+ [1] DBI_1.2.3          gridExtra_2.3      remotes_2.5.0      rlang_1.1.4       
+ [5] magrittr_2.0.3     snakecase_0.11.1   e1071_1.7-14       compiler_4.4.1    
+ [9] callr_3.7.6        systemfonts_1.1.0  vctrs_0.6.5        profvis_0.3.8     
+[13] pkgconfig_2.0.3    fastmap_1.2.0      backports_1.5.0    ellipsis_0.3.2    
+[17] labeling_0.4.3     utf8_1.2.4         promises_1.3.0     rmarkdown_2.28    
+[21] sessioninfo_1.2.2  tzdb_0.4.0         ps_1.7.7           ragg_1.3.2        
+[25] xfun_0.47          cachem_1.1.0       jsonlite_1.8.8     later_1.3.2       
+[29] tweenr_2.0.3       terra_1.7-78       broom_1.0.6        R6_2.5.1          
+[33] stringi_1.8.4      car_3.1-2          pkgload_1.4.0      knitr_1.48        
+[37] Rcpp_1.0.13        httpuv_1.6.15      timechange_0.3.0   tidyselect_1.2.1  
+[41] yaml_2.3.10        rstudioapi_0.16.0  abind_1.4-5        viridis_0.6.5     
+[45] codetools_0.2-20   miniUI_0.1.1.1     processx_3.8.4     pkgbuild_1.4.4    
+[49] lattice_0.22-6     shiny_1.9.1        withr_3.0.1        evaluate_0.24.0   
+[53] units_0.8-5        proxy_0.4-27       urlchecker_1.0.1   polyclip_1.10-7   
+[57] xml2_1.3.6         pillar_1.9.0       carData_3.0-5      KernSmooth_2.23-24
+[61] generics_0.1.3     rprojroot_2.0.4    sp_2.1-4           hms_1.1.3         
+[65] munsell_0.5.1      xtable_1.8-4       class_7.3-22       glue_1.7.0        
+[69] tools_4.4.1        ggsignif_0.6.4     fs_1.6.4           graphlayouts_1.1.1
+[73] tidygraph_1.3.1    grid_4.4.1         colorspace_2.1-1   ggforce_0.4.2     
+[77] cli_3.6.3          textshaping_0.4.0  fansi_1.0.6        viridisLite_0.4.2 
+[81] svglite_2.1.3      gtable_0.3.5       rstatix_0.7.2      digest_0.6.37     
+[85] classInt_0.4-10    ggrepel_0.9.5      farver_2.1.2       memoise_2.0.1     
+[89] htmltools_0.5.8.1  lifecycle_1.0.4    httr_1.4.7         mime_0.12         
+[93] MASS_7.3-60.2   
 
 --------------------------------------
 
