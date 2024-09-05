@@ -36,42 +36,47 @@ DOI:
     * 1.1. Data and script to reproduce the figures
     * 1.2. Instructions
 
-### 1.1. Data and script to reproduce the analysis
+### 1.1. Scripts to reproduce the figures
 
 - `Setup.R`: This file contains the code to install and load the packages and the functions required to run the figures in `.R`.
+- `Load_Data.R`: This file contains the code to load and clean the data.
+- `Figure2_GenerateBarplots.R`: This file contains the code to generate de bar plots from Figure 2 of the paper.
+- `Figure2_GenerateCircleplot.R`: This file contains the code to generate de circle plot from Figure 2 of the paper.
+- `Figure2_GenerateSankey.R`: This file contains the code to generate de sankey plot from Figure 2 of the paper.
+- `Figure2_GenerateMaps.R`: This file contains the code to generate de map from Figure 2 of the paper.
+- `Figure3_GenerateNetworks.R`: This file contains the code to generate de networks from Figure 3 of the paper.
 
-- `.R`: This file contains the code to manage, clean, and prepare the data to be run in the `.R` script.
+- `Figure2_GenerateBarplots.R`: This file contains the code to manage, clean, and prepare the data to be run in the `.R` script.
 
 | Variable                                 | Class              | Description                            |
 |------------------------------------------|--------------------|----------------------------------------|
-| common_name                              | Character          |                                        |
-| latin_name                               | Character          |                                        |
-| animal_identity_data                     | Character          |                                        |
-| number_of_animals                        | Character          |                                        |
-| foraging_category                        | Character          |                                        |
-| foraging_tactic                          | Character          |                                        |
-| tactic_driver                            | Character          |                                        |
-| human_induced                            | Character          |                                        |
-| prey_category                            | Character          |                                        |
-| putative_specialised_foraging_tactic     | Character          |                                        |
-| putative_cultural_foraging_tactic        | Character          |                                        |
-| transmission_direction                   | Character          |                                        |
-| nature_of_social_learning_evidence       | Character          |                                        |
-| culture_acknowledgement                  | Character          |                                        |
-| evidence_for_discreteness_significance   | Character          |                                        |
-| threat_acknowledgement                   | Character          |                                        |
-| threat_category                          | Character          |                                        |
-| threat_subcategory                       | Character          |                                        |
-| threat_direction                         | Character          |                                        |
-| conservation_actions_acknowledgement     | Character          |                                        |
-| existing_conservation_actions_category   | Character          |                                        |
-| existing_conservation_actions_subcategory| Character          |                                        |
-| proposed_conservation_actions_category   | Character          |                                        |
-| proposed_conservation_actions_subcategory| Character          |                                        |
-| references                               | Character          |                                        |
-| tactic_cat_fact                          | Factor (10 levels) |                                        |
-| evidence                                 | Character          |                                        |
-
+| common_name                              | Character          | The common name of the species exhibiting the foraging tactic   |
+| latin_name                               | Character          | The Latin name of the species exhibiting the foraging tactic|
+| animal_identity_data                     | Character          | Whether identity information for the individual(s) exhibiting the foraging tactic is available    |
+| number_of_animals                        | Character          | The number of different individuals exhibiting the foraging tactic                                       |
+| foraging_category                        | Character          | The broad foraging category that the specific foraging tactic most closely aligns with                      |
+| foraging_tactic                          | Character          | The specific foraging tactic                                       |
+| tactic_driver                            | Character          | The key factor influencing or determining the observed foraging tactic                         |
+| human_induced                            | Character          | Whether the foraging tactic is human-induced or not                   |
+| prey_category                            | Character          | The type of prey being targeted during the foraging tactic                                       |
+| habitat                                  | Character          | The type of habitat in which the foraging tactic is exhibited                                       |
+| prey_category                            | Character          | The type of prey being targeted during the foraging tactic                                       |
+| putative_specialised_foraging_tactic     | Character          | Foraging tactics having both individual identity information and evidence of being shared among conspecifics|
+| putative_cultural_foraging_tactic        | Character          | Foraging tactics with positive evidence of social learning                                       |
+| transmission_direction                   | Character          | How the foraging tactic is transmitted, given positive evidence of social learning                          |
+| nature_of_social_learning_evidence       | Character          | The type of evidence for social learning                                     |
+| culture_acknowledgement                  | Character          | The type of evidence for social learning                                      |
+| evidence_for_discreteness_significance   | Character          | Evidence for differences in diet or foraging techniques that are stable                                       |
+| threat_acknowledgement                   | Character          | Whether the reviewed studies acknowledge anthropogenic threats          |
+| threat_category                          | Character          | For studies that acknowledge anthropogenic threats and impacts, the type of IUCN-CMP first-level threat classification  |
+| threat_subcategory                       | Character          | For studies that acknowledge anthropogenic threats and impacts, the type of IUCN-CMP second-level threat classification|
+| threat_direction                         | Character          | Whether the acknowledged threats were considered a threat to or a consequence of the foraging tactic   |
+| conservation_actions_acknowledgement     | Character          | Whether the reviewed studies acknowledge existing or proposed conservation actions related to the foraging tactic  |
+| existing_conservation_actions_category   | Character          | Existing conservation actions related to the foraging tactic, the type of IUCN-CMP first-level action classification  |
+| existing_conservation_actions_subcategory| Character          | Existing conservation actions related to the foraging tactic, the type of IUCN-CMP second-level action classification  |
+| proposed_conservation_actions_category   | Character          | Proposed conservation actions related to the foraging tactic, the type of IUCN-CMP first-level action classification    |
+| proposed_conservation_actions_subcategory| Character          | Proposed conservation actions related to the foraging tactic, the type of IUCN-CMP second-level action classification   |
+| references                               | Character          | Reviewed primary and secondary literature used to fill out metrics for the foraging tactic |
 
 ### 1.2. Instructions
 
@@ -79,9 +84,9 @@ Scripts contain relative paths to source functions and load data. Open an R sess
 
 ```bash
 Toothed_Whales_Forag_Tactics/
-├── R/                        # contains the code to setup generate the figures
-├── figures/                  # stores tables and figures # NOTHING FOR NOW
-└── man/                      # contains figures to implement in the GitHub layout
+├── R/                        # contains the code to generate the figures
+├── figures/                  # stores figures 
+└── man/                      # contain the figure to implement in the GitHub layout
 ```
 **Note:** The workflow to run at the time of this message is:  `Setup.R` &rarr; `Load_data.R` &rarr; `FigureX_GenerateX.R`. 
 
