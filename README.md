@@ -29,16 +29,17 @@ Culture—group-typical behaviour shared by community members that rely on socia
 
 DOI: 
 
+### Data is available at ZENODO LINK
 
 ## Contents
 
 1. Files and directions
-    * 1.1. Data and script to reproduce the figures
+    * 1.1. Scripts to reproduce the figures
     * 1.2. Instructions
 
 ### 1.1. Scripts to reproduce the figures
 
-- `Setup.R`: This file contains the code to install and load the packages and the functions required to run the figures in `.R`.
+- `Setup.R`: This file contains the code to install and load the packages and the functions required to run the figures in all the following scripts.
 - `Load_Data.R`: This file contains the code to load and clean the data.
 - `Figure2_GenerateBarplots.R`: This file contains the code to generate the bar plots from Figure 2 of the paper.
 - `Figure2_GenerateCircleplot.R`: This file contains the code to generate the circle plot from Figure 2 of the paper.
@@ -47,11 +48,15 @@ DOI:
 - `Figure3_GenerateNetworks.R`: This file contains the code to generate the networks from Figure 3 of the paper.
 
 - `Figure2_GenerateBarplots.R`: This file contains the code to manage, clean, and prepare the data to be run in the `.R` script.
+  
 
+## Main data table
 | Variable                                 | Class              | Description                            |
 |------------------------------------------|--------------------|----------------------------------------|
 | common_name                              | Character          | The common name of the species exhibiting the foraging tactic   |
 | latin_name                               | Character          | The Latin name of the species exhibiting the foraging tactic|
+| country                                  | Character          | The country that has jurisdiction over the region where the foraging tactic occurs|
+| region                                   | Character          | The region where the foraging tactic occurs|
 | animal_identity_data                     | Character          | Whether identity information for the individual(s) exhibiting the foraging tactic is available    |
 | number_of_animals                        | Character          | The number of different individuals exhibiting the foraging tactic                                       |
 | foraging_category                        | Character          | The broad foraging category that the specific foraging tactic most closely aligns with                      |
@@ -77,6 +82,23 @@ DOI:
 | proposed_conservation_actions_category   | Character          | Proposed conservation actions related to the foraging tactic, the type of IUCN-CMP first-level action classification    |
 | proposed_conservation_actions_subcategory| Character          | Proposed conservation actions related to the foraging tactic, the type of IUCN-CMP second-level action classification   |
 | references                               | Character          | Reviewed primary and secondary literature used to fill out metrics for the foraging tactic |
+
+## Maps data table
+
+| Variable                                 | Class              | Description                            |
+|------------------------------------------|--------------------|----------------------------------------|
+| common_name                              | Character          | The common name of the species exhibiting the foraging tactic   |
+| latin_name                               | Character          | The Latin name of the species exhibiting the foraging tactic|
+| orca_ecotype                             | Character          | The orca ecotypes exhibiting the foraging tactic    |
+| country                                  | Character          | The country that has jurisdiction over the region where the foraging tactic occurs|
+| region                                   | Character          | The region where the foraging tactic occurs|
+| latitude                                 | Numeric            | The latitude where the foraging tactic occurs|
+| longitude                                | Numeric            | The longitude where the foraging tactic occurs|
+| putative_specialised_foraging_tactic     | Character          | Foraging tactics having both individual identity information and evidence of being shared among conspecifics|
+| foraging_category                        | Character          | The broad foraging category that the specific foraging tactic most closely aligns with                      |
+| tactic_cat_fact                          | Factor (10 levels) | The broad foraging category that the specific foraging tactic most closely aligns with                    |
+| evidence_for_discreteness_significance   | Character          | Evidence for differences in diet or foraging techniques that are stable                                       |
+
 
 ### 1.2. Instructions
 
@@ -109,41 +131,49 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] rnaturalearthhires_1.0.0.9000 webshot_0.5.5                 devtools_2.4.5               
- [4] usethis_3.0.0                 igraph_2.0.3                  ggraph_2.2.1                 
- [7] htmlwidgets_1.6.4             networkD3_0.4                 scales_1.3.0                 
-[10] rvest_1.0.4                   rnaturalearth_1.0.1           here_1.0.1                   
-[13] sf_1.0-16                     ggpubr_0.6.0                  janitor_2.2.0                
-[16] lubridate_1.9.3               forcats_1.0.0                 stringr_1.5.1                
-[19] dplyr_1.1.4                   purrr_1.0.2                   readr_2.1.5                  
-[22] tidyr_1.3.1                   tibble_3.2.1                  ggplot2_3.5.1                
-[25] tidyverse_2.0.0              
+ [1] mapview_2.11.2      webshot_0.5.5       devtools_2.4.5      usethis_3.0.0      
+ [5] igraph_2.0.3        ggraph_2.2.1        htmlwidgets_1.6.4   networkD3_0.4      
+ [9] scales_1.3.0        rvest_1.0.4         rnaturalearth_1.0.1 here_1.0.1         
+[13] sf_1.0-16           ggpubr_0.6.0        janitor_2.2.0       lubridate_1.9.3    
+[17] forcats_1.0.0       stringr_1.5.1       dplyr_1.1.4         purrr_1.0.2        
+[21] readr_2.1.5         tidyr_1.3.1         tibble_3.2.1        ggplot2_3.5.1      
+[25] tidyverse_2.0.0    
 
 loaded via a namespace (and not attached):
- [1] DBI_1.2.3          gridExtra_2.3      remotes_2.5.0      rlang_1.1.4       
- [5] magrittr_2.0.3     snakecase_0.11.1   e1071_1.7-14       compiler_4.4.1    
- [9] callr_3.7.6        systemfonts_1.1.0  vctrs_0.6.5        profvis_0.3.8     
-[13] pkgconfig_2.0.3    fastmap_1.2.0      backports_1.5.0    ellipsis_0.3.2    
-[17] labeling_0.4.3     utf8_1.2.4         promises_1.3.0     rmarkdown_2.28    
-[21] sessioninfo_1.2.2  tzdb_0.4.0         ps_1.7.7           ragg_1.3.2        
-[25] xfun_0.47          cachem_1.1.0       jsonlite_1.8.8     later_1.3.2       
-[29] tweenr_2.0.3       terra_1.7-78       broom_1.0.6        R6_2.5.1          
-[33] stringi_1.8.4      car_3.1-2          pkgload_1.4.0      knitr_1.48        
-[37] Rcpp_1.0.13        httpuv_1.6.15      timechange_0.3.0   tidyselect_1.2.1  
-[41] yaml_2.3.10        rstudioapi_0.16.0  abind_1.4-5        viridis_0.6.5     
-[45] codetools_0.2-20   miniUI_0.1.1.1     processx_3.8.4     pkgbuild_1.4.4    
-[49] lattice_0.22-6     shiny_1.9.1        withr_3.0.1        evaluate_0.24.0   
-[53] units_0.8-5        proxy_0.4-27       urlchecker_1.0.1   polyclip_1.10-7   
-[57] xml2_1.3.6         pillar_1.9.0       carData_3.0-5      KernSmooth_2.23-24
-[61] generics_0.1.3     rprojroot_2.0.4    sp_2.1-4           hms_1.1.3         
-[65] munsell_0.5.1      xtable_1.8-4       class_7.3-22       glue_1.7.0        
-[69] tools_4.4.1        ggsignif_0.6.4     fs_1.6.4           graphlayouts_1.1.1
-[73] tidygraph_1.3.1    grid_4.4.1         colorspace_2.1-1   ggforce_0.4.2     
-[77] cli_3.6.3          textshaping_0.4.0  fansi_1.0.6        viridisLite_0.4.2 
-[81] svglite_2.1.3      gtable_0.3.5       rstatix_0.7.2      digest_0.6.37     
-[85] classInt_0.4-10    ggrepel_0.9.5      farver_2.1.2       memoise_2.0.1     
-[89] htmltools_0.5.8.1  lifecycle_1.0.4    httr_1.4.7         mime_0.12         
-[93] MASS_7.3-60.2   
-
+  [1] RColorBrewer_1.1-3            rstudioapi_0.16.0             jsonlite_1.8.8               
+  [4] magrittr_2.0.3                farver_2.1.2                  fs_1.6.4                     
+  [7] ragg_1.3.2                    vctrs_0.6.5                   memoise_2.0.1                
+ [10] base64enc_0.1-3               terra_1.7-78                  rstatix_0.7.2                
+ [13] htmltools_0.5.8.1             curl_5.2.2                    broom_1.0.6                  
+ [16] raster_3.6-26                 KernSmooth_2.23-24            cachem_1.1.0                 
+ [19] mime_0.12                     lifecycle_1.0.4               pkgconfig_2.0.3              
+ [22] R6_2.5.1                      fastmap_1.2.0                 shiny_1.9.1                  
+ [25] rnaturalearthhires_1.0.0.9000 snakecase_0.11.1              selectr_0.4-2                
+ [28] digest_0.6.37                 colorspace_2.1-1              ps_1.7.7                     
+ [31] rprojroot_2.0.4               leafem_0.2.3                  pkgload_1.4.0                
+ [34] textshaping_0.4.0             crosstalk_1.2.1               labeling_0.4.3               
+ [37] fansi_1.0.6                   timechange_0.3.0              httr_1.4.7                   
+ [40] polyclip_1.10-7               abind_1.4-5                   compiler_4.4.1               
+ [43] proxy_0.4-27                  remotes_2.5.0                 withr_3.0.1                  
+ [46] backports_1.5.0               carData_3.0-5                 viridis_0.6.5                
+ [49] DBI_1.2.3                     pkgbuild_1.4.4                ggforce_0.4.2                
+ [52] ggsignif_0.6.4                MASS_7.3-60.2                 sessioninfo_1.2.2            
+ [55] leaflet_2.2.2                 classInt_0.4-10               tools_4.4.1                  
+ [58] units_0.8-5                   httpuv_1.6.15                 glue_1.7.0                   
+ [61] satellite_1.0.5               callr_3.7.6                   promises_1.3.0               
+ [64] grid_4.4.1                    generics_0.1.3                leaflet.providers_2.0.0      
+ [67] gtable_0.3.5                  tzdb_0.4.0                    class_7.3-22                 
+ [70] hms_1.1.3                     tidygraph_1.3.1               sp_2.1-4                     
+ [73] xml2_1.3.6                    car_3.1-2                     utf8_1.2.4                   
+ [76] ggrepel_0.9.5                 pillar_1.9.0                  later_1.3.2                  
+ [79] tweenr_2.0.3                  lattice_0.22-6                tidyselect_1.2.1             
+ [82] miniUI_0.1.1.1                gridExtra_2.3                 stats4_4.4.1                 
+ [85] graphlayouts_1.1.1            stringi_1.8.4                 yaml_2.3.10                  
+ [88] codetools_0.2-20              cli_3.6.3                     xtable_1.8-4                 
+ [91] systemfonts_1.1.0             jquerylib_0.1.4               munsell_0.5.1                
+ [94] processx_3.8.4                Rcpp_1.0.13                   png_0.1-8                    
+ [97] ellipsis_0.3.2                profvis_0.3.8                 urlchecker_1.0.1             
+[100] viridisLite_0.4.2             e1071_1.7-14                  crayon_1.5.3                 
+[103] rlang_1.1.4                   cowplot_1.1.3    
 --------------------------------------
 
