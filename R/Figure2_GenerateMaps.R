@@ -3,23 +3,18 @@
 
 
 ## -------------------------------------------------------------------------- ##
-## read in table data and clean for mapping ## ------------------------------ ##
-
-# read in the file made specifically for mapping (cases with multiple regions
-# made to have multiple rows per region) 
-table <- read.csv(here("",".csv"), stringsAsFactors = F)
 
 # review
-unique(table$spp_common)
-unique(table$map_region) 
-unique(table$tactic_category) 
-unique(table$multan_id_learn) 
-summary(table)
+unique(dataTable$common_name)
+unique(dataTable$region) 
+unique(dataTable$foraging_category) 
+unique(dataTable$putative_cultural_foraging_tactic) 
+summary(dataTable)
 
 # now make behavior specialisation type category a leveled factor, and level
 # by grouping by whether the behavior involves humans or not 
-unique(table$tactic_category)
-table$tactic_cat_fact <- factor(table$tactic_category,
+unique(dataTable$foraging_category)
+dataTable$tactic_cat_fact <- factor(dataTable$foraging_category,
                                       levels = c("Fisheries interaction",
                                                  "Human-cetacean cooperation",
                                                  "Human-mediated feeding",
@@ -32,13 +27,13 @@ table$tactic_cat_fact <- factor(table$tactic_category,
                                                  "Tool use"))
 
 # check
-summary(table$tactic_cat_fact)
+summary(dataTable$tactic_cat_fact)
 
 # recategorize the cases that have multiple animals, ID data, and evidence of 
 # social learning 
-table <- table %>%
+dataTable <- dataTable %>%
   mutate(
-    evidence = ifelse(is.na(multan_id_learn), "no", multan_id_learn)
+    evidence = ifelse(is.na(putative_cultural_foraging_tactic), "no", putative_cultural_foraging_tactic)
   )
 
 
@@ -49,15 +44,15 @@ world
 ## globe with data points ## ------------------------------------------------ ##
 
 # make into spatial object 
-table_sf <- st_as_sf(table, coords = c("longitude","latitude"), crs = 4326)
+dataTable_sf <- st_as_sf(dataTable, coords = c("longitude","latitude"), crs = 4326)
 
 # get interactive plot to check points manually
-mapview::mapview(table_sf)
+mapview::mapview(dataTable_sf)
 
 # fill circles if they have evidence for putative cultural trait
 # get the no evidence separate from the yes evidence
-nos <- filter(table_sf, evidence == "no")
-yes <- filter(table_sf, evidence == "yes")
+nos <- filter(dataTable_sf, evidence == "no")
+yes <- filter(dataTable_sf, evidence == "yes")
 
 # make the map
 ggplot() +
@@ -75,7 +70,7 @@ ggsave(here("outputs","figure2_map_case_points_fill_by_evidence_2024Aug27.pdf"),
 ## Hawaii
 ggplot() +
   geom_sf(data = world, color = NA, fill = "gray80") +
-  geom_sf(data = table_sf, aes(fill = evidence), color = "black", shape = 21, size = 4.5) +
+  geom_sf(data = dataTable_sf, aes(fill = evidence), color = "black", shape = 21, size = 4.5) +
   scale_fill_manual(values = c("white","black")) +
   coord_sf(xlim = c(-161, -154),
            ylim = c(18, 23),
@@ -92,7 +87,7 @@ ggsave(here("outputs","hawaii_pts.pdf"), width = 5, height = 4, units = "in",
 ggplot() +
   #geom_sf(data = world, color = NA, fill = "gray25") +
   geom_sf(data = world, color = NA, fill = "gray80") +
-  geom_sf(data = table_sf, aes(fill = evidence), color = "black", shape = 21, size = 5.5) +
+  geom_sf(data = dataTable_sf, aes(fill = evidence), color = "black", shape = 21, size = 5.5) +
   scale_fill_manual(values = c("white","black")) +
   coord_sf(xlim = c(-53, -37.5),
            ylim = c(-32.7, -23.9),

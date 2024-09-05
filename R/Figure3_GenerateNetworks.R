@@ -14,40 +14,25 @@ IUCN_CLASSIFICATION <- rvest::read_html("https://www.iucnredlist.org/resources/t
                 iucn_broad_classification = str_extract(iucn_broad_classification, pattern = '(?<=\\s)\\D+'))
 
 
-# Google Credentials ---- 
-googlesheets4::gs4_auth(path = Sys.getenv('GS_TOKEN')) # Check for Google Credentials and Token in the R environment
-
-# Read lab paper table from Google Sheets ----
-TABLE_LABIRINTO <- googlesheets4::read_sheet(
-  col_types = 'c',
-  sheet = 'ANALYZE_ME',
-  col_names = TRUE,
-  na = 'NA',
-  #n_max = 26491,
-  ss = Sys.getenv("GS_LG"),
-)|>
-  janitor::clean_names() |>
-  tibble::rownames_to_column()
-
 # Create list of column names to summarise data ----
 iucn <- list (
-  iucn_threats = c('broad' = 'iucn_broad_threat_type', 
-                   'specific' = 'iucn_specific_threat_type'),
-  iucn_existing = c('broad' = 'iucn_broad_existing_protection_type', 
-                    'specific' = 'iucn_specific_existing_protection_type'),
-  iucn_proposed = c('broad' = 'iucn_broad_proposed_protection_type', 
-                    'specific' = 'iucn_specific_proposed_protection_type')
+  iucn_threats = c('broad' = 'threat_category', 
+                   'specific' = 'threat_subcategory'),
+  iucn_existing = c('broad' = 'existing_conservation_actions_category', 
+                    'specific' = 'existing_conservation_actions_subcategory'),
+  iucn_proposed = c('broad' = 'proposed_conservation_actions_category', 
+                    'specific' = 'proposed_conservation_actions_subcategory')
 )
 
 # Summarize data ----
 BEHAVIOR_LINKS <- lapply(iucn, function(x){
   
-  TABLE_LABIRINTO |>
-    dplyr::filter(multiple_animals_and_id_and_learned == "yes") |>
+  dataTable |>
+    dplyr::filter(putative_specialised_foraging_tactic == "yes") |>
     summarise_links(
       broad = x[['broad']],
       specific = x[['specific']],
-      by = c('broad_tactic_category', 'threat_direction')
+      by = c('foraging_category', 'threat_direction')
     ) |>
     tidyr::drop_na() |>
     dplyr::rename("iucn_type" = x[['broad']]) |>
@@ -55,14 +40,14 @@ BEHAVIOR_LINKS <- lapply(iucn, function(x){
   
 }) |>
   do.call(what = rbind) |>
-  dplyr::group_by(broad_tactic_category, threat_direction, iucn_var, iucn_type) |>
+  dplyr::group_by(foraging_category, threat_direction, iucn_var, iucn_type) |>
   dplyr::arrange(desc(total_specific)) |>
   dplyr::ungroup() |>
   dplyr::left_join(y = IUCN_CLASSIFICATION, by = 'iucn_type')
 
 #### ===== NETWORK OF THREATS ====== #####
 LINKS_THREATS <- BEHAVIOR_LINKS |>
-  dplyr::filter(iucn_var == "iucn_broad_threat_type") |>
+  dplyr::filter(iucn_var == "threat_category") |>
   dplyr::mutate(
     x = dplyr::if_else(threat_direction == "Consequence OF specialization", 
                        false = -0.5, 
@@ -71,24 +56,16 @@ LINKS_THREATS <- BEHAVIOR_LINKS |>
     )
 
 # Rank tactics based on the number of occurrances ---- 
-broad_tactic_category <- factor(
-  x = LINKS_THREATS$broad_tactic_category, 
-  levels = unique(LINKS_THREATS$broad_tactic_category)
+foraging_category <- factor(
+  x = LINKS_THREATS$foraging_category, 
+  levels = unique(LINKS_THREATS$foraging_category)
   )
 
-FREQ_TACTIC <- as.data.frame.table(table(broad_tactic_category)) |>
+FREQ_TACTIC <- as.data.frame.table(table(foraging_category)) |>
   dplyr::arrange(Freq) |>
   dplyr::mutate(
     y_end = 1:n(),
     y_end_scaled = scales::rescale(y_end))
-
-# # Rank threats by summarising total specific links ----
-# FREQ_THREAT <- LINKS_THREATS |>
-#   dplyr::group_by(labirinto_threat_category, iucn_broad_classification) |>
-#   dplyr::summarise(y_start = sum(total_specific)) |>
-#   dplyr::arrange(y_start) |>
-#   dplyr::mutate(y_start = scales::rescale(seq_along(labirinto_threat_category))) |>
-#   dplyr::ungroup()
 
 # Rank threats by degree ----
 iucn_broad_classification <- factor(
@@ -96,6 +73,7 @@ iucn_broad_classification <- factor(
   levels = unique(LINKS_THREATS$iucn_broad_classification)
     )
 
+# Rank threats by summarising total specific links ----
 FREQ_THREAT <- as.data.frame.table(table(iucn_broad_classification)) |>
   dplyr::arrange(Freq) |>
   dplyr::mutate(
@@ -104,9 +82,9 @@ FREQ_THREAT <- as.data.frame.table(table(iucn_broad_classification)) |>
 
 # ylimit <- max(FREQ_TACTIC$y_end, FREQ_THREAT$y_start) * 1.20
 MATRIX_THREATS <- LINKS_THREATS |>
-  dplyr::left_join(y = FREQ_TACTIC, by = 'broad_tactic_category') |> 
+  dplyr::left_join(y = FREQ_TACTIC, by = 'foraging_category') |> 
   dplyr::left_join(y = FREQ_THREAT, by = 'iucn_broad_classification') |>
-  dplyr::group_by(broad_tactic_category, threat_direction) |>
+  dplyr::group_by(foraging_category, threat_direction) |>
   dplyr::summarise(total_specific = sum(total_specific)) |>
   dplyr::ungroup() |>
   tidyr::pivot_wider(
@@ -114,13 +92,13 @@ MATRIX_THREATS <- LINKS_THREATS |>
     values_from = total_specific
     ) |>
   dplyr::mutate_if(is.numeric, .funs = function(x){ifelse(is.na(x),no = x, yes = 0)}) |>
-  tibble::column_to_rownames(var = 'broad_tactic_category') |>
+  tibble::column_to_rownames(var = 'foraging_category') |>
   as.matrix()
  
 ## ----
 
 GRAPH_THREATS <- LINKS_THREATS |>
-  dplyr::left_join(y = FREQ_TACTIC, by = 'broad_tactic_category') |> 
+  dplyr::left_join(y = FREQ_TACTIC, by = 'foraging_category') |> 
   dplyr::left_join(y = FREQ_THREAT, by = 'iucn_broad_classification') |>
   tibble::rownames_to_column() |>
   ggplot(aes(group = rowname)) +
@@ -137,7 +115,7 @@ GRAPH_THREATS <- LINKS_THREATS |>
     ) +
   #geom_point(aes(x = xend, y = y_end), size = 15) + 
   geom_label(
-    aes(label = stringr::str_wrap(broad_tactic_category), x = xend, y = y_end_scaled)
+    aes(label = stringr::str_wrap(foraging_category), x = xend, y = y_end_scaled)
     ) +
   geom_text(aes(x = 0.25, y = 1.1, size = 2, label = 'Threats as a consequence of \n the foraging specialization')) +
   geom_text(aes(x = -0.25, y = 1.1, size = 2, label = 'Threats to the \n foraging specialization')) +
@@ -164,19 +142,13 @@ LINKS_PROTECTIONS <- BEHAVIOR_LINKS |>
   )
 
 # Rank tactics based on the number of occurrances ---- 
-FREQ_TACTIC_PROTECT <- as.data.frame.table(table(LINKS_PROTECTIONS$broad_tactic_category)) |>
+FREQ_TACTIC_PROTECT <- as.data.frame.table(table(LINKS_PROTECTIONS$foraging_category)) |>
   dplyr::arrange(Freq) |>
   dplyr::mutate(y_end = 1:n(),
                 y_end_scaled = scales::rescale(y_end)) |>
-  dplyr::rename(broad_tactic_category = Var1)
+  dplyr::rename(foraging_category = Var1)
 
-# # Rank threats by summarising total specific links ----
-# FREQ_THREAT_PROTECT <- LINKS_PROTECTIONS |>
-#   dplyr::group_by(iucn_var, iucn_type) |>
-#   dplyr::summarise(y_start = sum(total_specific)) |>
-#   dplyr::arrange(y_start) |>
-#   dplyr::mutate(y_start = scales::rescale(seq_along(iucn_var))) |>
-#   dplyr::ungroup()
+# Rank threats by summarising total specific links ----
 
 FREQ_THREAT_PROTECT <- as.data.frame.table(table(LINKS_PROTECTIONS$iucn_type)) |>
   dplyr::arrange(Freq) |>
@@ -187,7 +159,7 @@ FREQ_THREAT_PROTECT <- as.data.frame.table(table(LINKS_PROTECTIONS$iucn_type)) |
 
 # ylimit <- max(FREQ_TACTIC$y_end, FREQ_THREAT$y_start) * 1.20
 GRAPH_PROTECTIONS <- LINKS_PROTECTIONS |>
-  dplyr::left_join(y = FREQ_TACTIC_PROTECT, by = 'broad_tactic_category') |> 
+  dplyr::left_join(y = FREQ_TACTIC_PROTECT, by = 'foraging_category') |> 
   dplyr::left_join(y = FREQ_THREAT_PROTECT, by = 'iucn_type') |>
   tibble::rownames_to_column() |>
   ggplot(aes(group = rowname)) +
@@ -200,7 +172,7 @@ GRAPH_PROTECTIONS <- LINKS_PROTECTIONS |>
   #geom_point(aes(x = x, y = y_start), size = 15) + 
   geom_label(aes(label = iucn_type, x = x, y = y_start_scaled)) +
   #geom_point(aes(x = xend, y = y_end), size = 15) + 
-  geom_label(aes(label = broad_tactic_category, x = xend, y = y_end_scaled)) +
+  geom_label(aes(label = foraging_category, x = xend, y = y_end_scaled)) +
   geom_text(aes(x = 0.25, y = 1.1, label = 'IUCN Proposed Protection Type')) +
   geom_text(aes(x = -0.25, y = 1.1, label = 'IUCN Existing Protection Type')) +
   #scale_colour_manual(values = c('black', 'grey50')) +
@@ -241,12 +213,12 @@ tmp_colors <- ifelse(
   no = 'grey50'
   )
 
-g <- graph.data.frame(
-  LINKS_THREATS[,c("broad_tactic_category", "iucn_broad_classification")],
+g <- igraph::graph.data.frame(
+  LINKS_THREATS[,c("foraging_category", "iucn_broad_classification")],
   directed = TRUE
   )
 
-V(g)$type <- bipartite_mapping(g)$type
+V(g)$type <- igraph::bipartite_mapping(g)$type
 E(g)$color <- tmp_colors
 E(g)$weight <- LINKS_THREATS$total_specific
 
@@ -264,7 +236,7 @@ plot(
 # BIPARTITE ====
 data_threats <- LINKS_THREATS |>
   dplyr::select(
-    broad_tactic_category,
+    foraging_category,
     iucn_broad_classification,
     total_specific,
     threat_direction
@@ -301,7 +273,7 @@ bipartite::plotweb(
  data_threats <- lapply(
    LINKS_THREATS |>
    dplyr::select(
-     broad_tactic_category,
+     foraging_category,
      iucn_broad_classification,
      total_specific,
      threat_direction
@@ -321,8 +293,8 @@ bipartite::plotweb(
            dplyr::if_else(is.na(x), false = x, true = 0)
          }
        ) |>
-       tibble::column_to_rownames('broad_tactic_category') |>
-       dplyr::select(!c(labirinto_threat_category)) |>
+       tibble::column_to_rownames('foraging_category') |>
+       dplyr::select(!c(iucn_var)) |>
        as.matrix()
      }
    )

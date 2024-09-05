@@ -6,18 +6,19 @@ if(!require(ggpubr)){install.packages('ggpubr'); library(ggpubr)}
 if(!require(sf)){install.packages('sf'); library(sf)}
 if(!require(here)){install.packages('here'); library(here)}
 if(!require(rnaturalearth)){install.packages('rnaturalearth'); library(rnaturalearth)}
-if(!require(rnaturalearthhires)){install.packages('rnaturalearthhires'); library(rnaturalearthhires)}
 if(!require(rvest)){install.packages('rvest'); library(rvest)}
 if(!require(scales)){install.packages('scales'); library(scales)}
 if(!require(networkD3)){install.packages('networkD3'); library(networkD3)}
 if(!require(htmlwidgets)){install.packages('htmlwidgets'); library(htmlwidgets)}
 if(!require(ggraph)){install.packages('ggraph'); library(ggraph)}
 if(!require(igraph)){install.packages('igraph'); library(igraph)}
+if(!require(devtools)){install.packages('devtools'); library(devtools)}
+
+devtools::install_github("ropensci/rnaturalearthhires")
+library(rnaturalearthhires)
 
 
 ## Functions ----
-
-
 
 #'@author Alexandre M. S. Machado
 #'
