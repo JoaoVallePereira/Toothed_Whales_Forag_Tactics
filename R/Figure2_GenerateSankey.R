@@ -1,63 +1,62 @@
-# Read in Table
-lab_table <- read.csv("")
+
 
 # Count the features in the table
 ## Photo ID
-y.pi <- sum(lab_table$Animal.identity.data == "yes")
-ny.pi <- sum(lab_table$Animal.identity.data == "no")
+y.pi <- sum(dataTable$animal_identity_data == "yes")
+ny.pi <- sum(dataTable$animal_identity_data == "no")
 
 ## How wide is the behavior?
-single <- sum(lab_table$Number.of.animals == "one")
-more <- sum(lab_table$Number.of.animals != "one" & 
-              lab_table$Animal.identity.data == "yes")
+single <- sum(dataTable$number_of_animals == "one")
+more <- sum(dataTable$number_of_animals != "one" & 
+              dataTable$animal_identity_data == "yes")
 
 ## Social transmission?
-y.st <- sum(lab_table$Multiple.animals.AND.ID.AND.learned == "yes" &
-              lab_table$Number.of.animals != "one" & 
-              lab_table$Animal.identity.data == "yes")
-n.st <- sum(lab_table$Number.of.animals != "one" & 
-              lab_table$Animal.identity.data == "yes" &
-              (lab_table$Learning == "Social (- evidence)" | lab_table$Learning =="Individual (+ evidence); Social (- evidence)"))
-unk <- sum(lab_table$Number.of.animals != "one" & 
-             lab_table$Animal.identity.data == "yes" &
-             (lab_table$Learning == "Did not investigate (UNK)" | lab_table$Learning == "Investigated but unsure (UNK)"))
+y.st <- sum(dataTable$putative_specialised_foraging_tactic == "yes" &
+              dataTable$number_of_animals != "one" & 
+              dataTable$animal_identity_data == "yes")
+n.st <- sum(dataTable$number_of_animals != "one" & 
+              dataTable$animal_identity_data == "yes" &
+              (dataTable$learning == "Social (- evidence)" | dataTable$learning =="Individual (+ evidence); Social (- evidence)"))
+unk <- sum(dataTable$number_of_animals != "one" & 
+             dataTable$animal_identity_data == "yes" &
+             (dataTable$learning == "Did not investigate (UNK)" | dataTable$learning == "Investigated but unsure (UNK)"))
 
 ## Evidence?
-qual <- sum(lab_table$Multiple.animals.AND.ID.AND.learned == "yes" &
-              lab_table$Number.of.animals != "one" & 
-              lab_table$Animal.identity.data == "yes" &
-              lab_table$Nature.of.learning.evidence == "qualitative")
-quan <- sum(lab_table$Multiple.animals.AND.ID.AND.learned == "yes" &
-              lab_table$Number.of.animals != "one" & 
-              lab_table$Animal.identity.data == "yes" &
-              lab_table$Nature.of.learning.evidence != "qualitative")
+qual <- sum(dataTable$putative_specialised_foraging_tactic == "yes" &
+              dataTable$number_of_animals != "one" & 
+              dataTable$animal_identity_data == "yes" &
+              dataTable$nature_of_social_learning_evidence == "qualitative", na.rm = TRUE)
+quan <- sum(dataTable$putative_specialised_foraging_tactic == "yes" &
+              dataTable$number_of_animals != "one" & 
+              dataTable$animal_identity_data == "yes" &
+              dataTable$nature_of_social_learning_evidence != "qualitative", na.rm = TRUE)
 
 ## Type of quantitative evidence?
-assoc <- sum(lab_table$Multiple.animals.AND.ID.AND.learned == "yes" &
-               lab_table$Number.of.animals != "one" & 
-               lab_table$Animal.identity.data == "yes" &
-               lab_table$Nature.of.learning.evidence == "quantitative - associations")
-diffus <- sum(lab_table$Multiple.animals.AND.ID.AND.learned == "yes" &
-                lab_table$Number.of.animals != "one" & 
-                lab_table$Animal.identity.data == "yes" &
-                lab_table$Nature.of.learning.evidence == "quantitative - diffusion")
-both <- sum(lab_table$Multiple.animals.AND.ID.AND.learned == "yes" &
-              lab_table$Number.of.animals != "one" & 
-              lab_table$Animal.identity.data == "yes" &
-              lab_table$Nature.of.learning.evidence == "quantitative - diffusion & associations")
+assoc <- sum(dataTable$putative_specialised_foraging_tactic == "yes" &
+               dataTable$number_of_animals != "one" & 
+               dataTable$animal_identity_data == "yes" &
+               dataTable$nature_of_social_learning_evidence == "quantitative - associations", na.rm = TRUE)
+diffus <- sum(dataTable$putative_specialised_foraging_tactic == "yes" &
+                dataTable$number_of_animals != "one" & 
+                dataTable$animal_identity_data == "yes" &
+                dataTable$nature_of_social_learning_evidence == "quantitative - diffusion", na.rm = TRUE)
+both <- sum(dataTable$putative_specialised_foraging_tactic == "yes" &
+              dataTable$number_of_animals != "one" & 
+              dataTable$animal_identity_data == "yes" &
+              dataTable$nature_of_social_learning_evidence == "quantitative - diffusion & associations", na.rm = TRUE)
 
 # discreteness and evolutionary significance
-lik <- sum(lab_table$Multiple.animals.AND.ID.AND.learned == "yes" &
-             lab_table$Number.of.animals != "one" & 
-             lab_table$Animal.identity.data == "yes" &
-             lab_table$Nature.of.learning.evidence != "qualitative" &
-             lab_table$Evidence.for.discreteness.evolutionary.significance == "likely")
+lik <- sum(dataTable$putative_specialised_foraging_tactic == "yes" &
+             dataTable$number_of_animals != "one" & 
+             dataTable$animal_identity_data == "yes" &
+             dataTable$nature_of_social_learning_evidence != "qualitative" &
+             dataTable$evidence_for_discreteness_significance == "likely", na.rm = TRUE)
 
-unk2 <- sum(lab_table$Multiple.animals.AND.ID.AND.learned == "yes" &
-             lab_table$Number.of.animals != "one" & 
-             lab_table$Animal.identity.data == "yes" &
-             lab_table$Nature.of.learning.evidence != "qualitative" &
-             lab_table$Evidence.for.discreteness.evolutionary.significance == "unknown") 
+unk2 <- sum(dataTable$putative_specialised_foraging_tactic == "yes" &
+             dataTable$number_of_animals != "one" & 
+             dataTable$animal_identity_data == "yes" &
+             dataTable$nature_of_social_learning_evidence != "qualitative" &
+             dataTable$evidence_for_discreteness_significance == "unknown", na.rm = TRUE) 
 
 # Create Sankey Plot
 # Connection data frame
@@ -69,8 +68,8 @@ links <- data.frame(
            "Done by >1 individual (n=98)",
            "Done by >1 individual (n=98)",
            "Done by >1 individual (n=98)",
-           "Social Learning (n=55)", 
-           "Social Learning (n=55)",
+           "Social learning (n=55)", 
+           "Social learning (n=55)",
            "Quantitative (n=28)",
            "Quantitative (n=28)",
            "Quantitative (n=28)", 
@@ -83,7 +82,7 @@ links <- data.frame(
            "No Individual ID (n=86)",
            "Done by >1 individual (n=98)", 
            "Done by 1 individual (n=6)", 
-           "Social Learning (n=55)", 
+           "Social learning (n=55)", 
            "Evidence against social learning (n=5)",
            "Unknown or unsure (n=38)",
            "Quantitative (n=28)", 
@@ -124,7 +123,7 @@ links <- data.frame(
           # 1,
           # 2)
 )
-
+links
 # Create a node data frame: it lists every entities involved in the flow
 nodes <- data.frame(
   name=c(as.character(links$source), 
@@ -143,7 +142,7 @@ links$IDsource <- match(links$source, nodes$name)-1
 links$IDtarget <- match(links$target, nodes$name)-1
 
 # Create the Sankey diagram
-sankey <- sankeyNetwork(Links = links,
+sankey <- networkD3::sankeyNetwork(Links = links,
                         Nodes = nodes,
                         Source = "IDsource",
                         Target = "IDtarget",

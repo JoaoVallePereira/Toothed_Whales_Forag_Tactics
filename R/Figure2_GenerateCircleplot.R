@@ -1,4 +1,3 @@
-
 ############
 dataTable$prey_category <- gsub("; ", "", dataTable$prey_category)
 

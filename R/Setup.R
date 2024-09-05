@@ -15,7 +15,6 @@ if(!require(ggraph)){install.packages('ggraph'); library(ggraph)}
 if(!require(igraph)){install.packages('igraph'); library(igraph)}
 
 
-
 ## Functions ----
 
 
