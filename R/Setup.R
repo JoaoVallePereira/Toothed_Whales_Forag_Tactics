@@ -13,8 +13,10 @@ if(!require(htmlwidgets)){install.packages('htmlwidgets'); library(htmlwidgets)}
 if(!require(ggraph)){install.packages('ggraph'); library(ggraph)}
 if(!require(igraph)){install.packages('igraph'); library(igraph)}
 if(!require(devtools)){install.packages('devtools'); library(devtools)}
+if(!require(webshot)){install.packages('webshot'); library(webshot)}
 
-devtools::install_github("ropensci/rnaturalearthhires")
+webshot::install_phantomjs()
+# devtools::install_github("ropensci/rnaturalearthhires")
 library(rnaturalearthhires)
 
 
@@ -46,8 +48,8 @@ summarise_links <- function(data, by, broad, specific) {
 
 # Colorblind safe palette for plots
 
-colorblind_safe_cat <- c("#7B3294", "#1B9E77","#A6CEE3","#C2A5CF","#B3E2CD"
-                         ,"#7FC97F", "#1B9E77","#FDB863","#F4A582",
-                         "#8DD3C7","#A6611A","#CA0020")
+colorblind_safe_cat <- c("#7B3294", "#1B9E77","#A6CEE3","#C2A5CF",
+                         "#B3E2CD","#7FC97F", "#1B9E77","#FDB863",
+                         "#F4A582","#8DD3C7","#A6611A","#CA0020")
 
 

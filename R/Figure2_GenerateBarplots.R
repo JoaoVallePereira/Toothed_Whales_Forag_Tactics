@@ -1,4 +1,8 @@
-# Plot age of class of foraging tactics with photo ID infomation 
+## Figure2_GenerateBarplots.R: Barplots for figure 2 
+## Authors: Joao Valle-Pereira
+
+
+# Plot age of class of foraging tactics with photo ID infomation ----
 age_plot <- dataTable %>% 
   dplyr::filter(age_class != "unknown",
                 animal_identity_data == "yes") %>% 
@@ -14,12 +18,12 @@ age_plot <- dataTable %>%
   theme(legend.position = "none",
         text = element_text(size=15))
 age_plot
-# ggsave(file="age_plot.svg", plot=age_plot, width=10, height=8)
+# ggsave(file="./figures/age_plot.svg", plot=age_plot, width=10, height=8)
 
-# Plot transmission mode of the putative cultural foraging tactics
+# Plot transmission mode of the putative cultural foraging tactics ----
 transmission_plot <- dataTable %>% 
   dplyr::filter(transmission_direction != "unknown",
-                putative_specialised_foraging_tactic == "yes") %>% 
+                putative_cultural_foraging_tactic == "yes") %>% 
   dplyr::mutate(transmission_short = ifelse(transmission_direction != "vertical" &
                                               transmission_direction != "horizontal",
                                             "multiple", 
@@ -36,9 +40,9 @@ transmission_plot <- dataTable %>%
   theme(legend.position = "none",
         text = element_text(size=15))
 transmission_plot
-# ggsave(file="transmission_plot.svg", plot=transmission_plot, width=10, height=8)
+# ggsave(file="./figures/transmission_plot.pdf", plot=transmission_plot, width=10, height=8)
 
-# Plot tactic reliance on the nature of their prey or physical structures 
+# Plot tactic reliance on the nature of their prey or physical structures ----
 tactic_driver_plot <- dataTable %>%  
   dplyr::group_by(common_name, tactic_driver) %>%  
   dplyr::summarize(Count = n()) %>%
@@ -60,5 +64,5 @@ tactic_driver_plot <- dataTable %>%
         panel.background = element_blank(),
         text = element_text(size=15)) 
 tactic_driver_plot
-# ggsave(file = "tactic_driver_plot.svg", plot = tactic_driver_plot, width=10, height=8)
+# ggsave(file = "./figures/tactic_driver_plot.svg", plot = tactic_driver_plot, width=10, height=8)
 

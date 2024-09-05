@@ -192,21 +192,20 @@ PLOT_OUT <- cowplot::plot_grid(plotlist = list(GRAPH_THREATS, GRAPH_PROTECTIONS)
 # Export different formats 
 outFormat <- c("svg", "eps", "pdf")
 
-sapply(outFormat, function(x){
-  ggplot2::ggsave(
-    plot = PLOT_OUT, 
-    filename = sprintf("./output/TripartiteNetworks_Figure_03_V2.%s", x),
-    device = sprintf('%s', x),
-    width = 210,
-    height = 290,
-    units = 'mm', 
-    dpi = 800
-  )
-})
+# sapply(outFormat, function(x){
+#   ggplot2::ggsave(
+#     plot = PLOT_OUT, 
+#     filename = sprintf("./figures/TripartiteNetworks_Figure_03_V2.%s", x),
+#     device = sprintf('%s', x),
+#     width = 210,
+#     height = 290,
+#     units = 'mm', 
+#     dpi = 800
+#   )
+# })
 
 
-
-# IGRAPH ===
+# IGRAPH ----
 tmp_colors <- ifelse(
   LINKS_THREATS$threat_direction == "Threat TO specialization",
   yes = 'firebrick', 
@@ -232,91 +231,3 @@ plot(
   vertex.shape = 'rectangle',
   vertex.label.cex = 0.6
 )
-
-# BIPARTITE ====
-data_threats <- LINKS_THREATS |>
-  dplyr::select(
-    foraging_category,
-    iucn_broad_classification,
-    total_specific,
-    threat_direction
-  ) |>
-    tidyr::pivot_wider(
-      values_from = total_specific,
-      names_from = iucn_broad_classification
-    ) |>
-      dplyr::mutate_if(
-        is.integer,
-        .funs = function(x) {
-          dplyr::if_else(is.na(x), false = x, true = 0)
-        }) |>
-  dplyr::mutate(threat_direction == "Threat TO specialization")
-
-tmp_clr <- ifelse(
-  data_threats$threat_direction == "Threat TO specialization",
-  yes = 'firebrick', 
-  no = 'grey50'
-)
-
-
-bipartite::plotweb(
-  sortweb(as.matrix(data_threats[,-c(1,2)]), sort.order = 'dec'),
-  method = 'normal',
-  #text.rot = 90, 
-  arrow = "down.center",
-  bor.col.interaction = tmp_clr,
-  col.interaction = tmp_clr
-)
-
-# Tripartite with plotweb ----
-
- data_threats <- lapply(
-   LINKS_THREATS |>
-   dplyr::select(
-     foraging_category,
-     iucn_broad_classification,
-     total_specific,
-     threat_direction
-   ) |>
-   split(f = as.factor(LINKS_THREATS$threat_direction))
-   ,
-
-   FUN = function(x){
-     x |>
-     tidyr::pivot_wider(
-       values_from = total_specific,
-       names_from = iucn_broad_classification
-     ) |>
-       dplyr::mutate_if(
-         is.integer,
-         .funs = function(x) {
-           dplyr::if_else(is.na(x), false = x, true = 0)
-         }
-       ) |>
-       tibble::column_to_rownames('foraging_category') |>
-       dplyr::select(!c(iucn_var)) |>
-       as.matrix()
-     }
-   )
-
-# # Some fix required...
-#  bipartite::plotweb(
-#    sortweb(data_threats$`Consequence OF specialization`, sort.order = 'dec'),
-#    method = 'normal',
-#    #text.rot = 90,
-#    arrow = "down.center",
-#    y.lim = c(0, 3)
-#    #bor.col.interaction = tmp_colors,
-#    #col.interaction = tmp_colors
-#  )
-
- plotweb(sortweb(data_threats$`Consequence OF specialization`, sort.order = 'dec'),
-         y.width.low=0.1, y.width.high=0.05,method="normal",
-         y.lim=c(0,3), arrow="up", adj.high=c(0.5,1.5), col.high="orange",
-         high.lab.dis=0)
-
- plotweb(t(sortweb(data_threats$`Threat TO specialization`, sort.order = 'dec')),
-         y.width.low=0.05, y.width.high=0.1, method="normal",
-         add=TRUE,low.y=1.5,high.y=2.5, col.low="green", text.low.col="red",
-         low.lab.dis=0, arrow="down", adj.low=c(0.5,1.1),low.plot=FALSE)
- 

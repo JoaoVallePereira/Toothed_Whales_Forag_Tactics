@@ -1,4 +1,8 @@
-############
+## Figure2_GenerateCircleplot.R: Circle plot for figure 2 
+## Authors: Joao Valle-Pereira
+
+
+# Prepare data to transform in Igraph format
 dataTable$prey_category <- gsub("; ", "", dataTable$prey_category)
 
 dataCircle1 <- dataTable %>%
@@ -21,7 +25,7 @@ dataCircle_tmp2 <- cbind(from = dataCircle_tmp$to, to = paste(dataCircle_tmp$to,
                                                               dataCircle1$foraging_category, sep  = ".")) 
 
 
-######
+# Set edges and vertices
 edges <- data.frame(rbind(dataCircle_tmp, dataCircle_tmp2)) 
 
 vertices <- edges %>% 
@@ -31,8 +35,6 @@ vertices <- edges %>%
 
 vertices <- rbind(vertices, data.frame(name = c("coastal", "oceanic", "riverine"),
                                        size = 0))
-
-#
 
 list_names <- stringr::str_split(vertices$name, "[.]") %>% 
   purrr::map(pluck, 3, .default	= NA) 
@@ -52,9 +54,10 @@ vertices <- vertices %>%
   dplyr::mutate(tactic = ifelse(is.na(tactic), 0, tactic))
 
 
-# make a 'graph' object using the igraph library:
+# Make a 'graph' object using the igraph library
 mygraph <- igraph::graph_from_data_frame(edges, vertices = vertices)
 
+# Plot circlepack plot
 ggraph_circle <- mygraph %>%  
   ggraph::ggraph(layout = 'circlepack', weight = size) + 
   geom_node_circle(aes(fill = factor(tactic))) +
@@ -62,6 +65,6 @@ ggraph_circle <- mygraph %>%
   scale_fill_manual(values = colorblind_safe_cat) +
   theme_void() 
 ggraph_circle
-# ggsave("ggraph_circle.PNG", dpi = 300)
+# ggsave("./figures/ggraph_circle.pdf", dpi = 300)
 
 

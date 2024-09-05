@@ -1,4 +1,4 @@
-# Load and clean table ----
+# Load and clean table names ----
 
 dataTable <- read.csv("./data/240904_PhilTrans_Lab_Dataset.csv") %>% 
   janitor::clean_names() %>% 

@@ -1,3 +1,5 @@
+## Figure2_GenerateSankey.R: Sankey plot for figure 2
+## Authors: Kyra Bankhead & Mauricio Cantor
 
 
 # Count the features in the table
@@ -58,6 +60,8 @@ unk2 <- sum(dataTable$putative_specialised_foraging_tactic == "yes" &
              dataTable$nature_of_social_learning_evidence != "qualitative" &
              dataTable$evidence_for_discreteness_significance == "unknown", na.rm = TRUE) 
 
+
+
 # Create Sankey Plot
 # Connection data frame
 links <- data.frame(
@@ -95,11 +99,6 @@ links <- data.frame(
            "Likely",
            "Unknown",
            "Unknown") ,
-           # "Likely",
-           # "Unknown",
-           # "Likely",
-           # "Unknown",
-           # "Unknown") ,
   value=c(y.pi, 
           ny.pi, 
           more, 
@@ -117,13 +116,9 @@ links <- data.frame(
           2,
           1,
           2)
-          # 6,
-          # 17,
-          # 2,
-          # 1,
-          # 2)
 )
 links
+
 # Create a node data frame: it lists every entities involved in the flow
 nodes <- data.frame(
   name=c(as.character(links$source), 
@@ -167,11 +162,7 @@ sankey <- htmlwidgets::onRender(sankey, "
 sankey
 
 # export to PDF
-require(htmlwidgets)
-saveWidget(sankey, file=paste0(getwd(),"/sankey.html"))
-
-require(webshot)
-webshot::install_phantomjs()
-webshot(paste0(getwd(),"/sankey.html"), paste0(getwd(),"/sankey.pdf"))
+# saveWidget(sankey, file=paste0(getwd(),"./figures/sankey.html"))
+# webshot(paste0(getwd(),"./figures/sankey.html"), paste0(getwd(),"./figures/sankey.pdf"))
 
 
