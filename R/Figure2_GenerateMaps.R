@@ -33,7 +33,7 @@ summary(dataTable_map$tactic_cat_fact)
 # social learning 
 dataTable_map <- dataTable_map %>%
   mutate(
-    evidence = ifelse(is.na(putative_specialised_foraging_tactic), "no", putative_specialised_foraging_tactic)
+    evidence_for_discreteness_significance = ifelse(is.na(putative_specialised_foraging_tactic), "no", putative_specialised_foraging_tactic)
   )
 
 
@@ -51,8 +51,8 @@ mapview::mapview(dataTable_map_sf)
 
 # fill circles if they have evidence for putative cultural trait
 # get the no evidence separate from the yes evidence
-nos <- filter(dataTable_map_sf, evidence == "no")
-yes <- filter(dataTable_map_sf, evidence == "yes")
+nos <- filter(dataTable_map_sf, evidence_for_discreteness_significance == "no")
+yes <- filter(dataTable_map_sf, evidence_for_discreteness_significance == "yes")
 
 # make the map
 ggplot() +
@@ -70,7 +70,7 @@ ggplot() +
 ## Hawaii
 ggplot() +
   geom_sf(data = world, color = NA, fill = "gray80") +
-  geom_sf(data = dataTable_map_sf, aes(fill = evidence), color = "black", shape = 21, size = 4.5) +
+  geom_sf(data = dataTable_map_sf, aes(fill = evidence_for_discreteness_significance), color = "black", shape = 21, size = 4.5) +
   scale_fill_manual(values = c("white","black")) +
   coord_sf(xlim = c(-161, -154),
            ylim = c(18, 23),
@@ -87,7 +87,7 @@ ggplot() +
 ggplot() +
   #geom_sf(data = world, color = NA, fill = "gray25") +
   geom_sf(data = world, color = NA, fill = "gray80") +
-  geom_sf(data = dataTable_map_sf, aes(fill = evidence), color = "black", shape = 21, size = 5.5) +
+  geom_sf(data = dataTable_map_sf, aes(fill = evidence_for_discreteness_significance), color = "black", shape = 21, size = 5.5) +
   scale_fill_manual(values = c("white","black")) +
   coord_sf(xlim = c(-53, -37.5),
            ylim = c(-32.7, -23.9),

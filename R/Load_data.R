@@ -15,7 +15,8 @@ dataTable_map <- read.csv("./data/dataTable_Forag_Tactics_map.csv") %>%
                 country = map_region,
                 region = map_subregion,
                 putative_specialised_foraging_tactic = multan_id_learn,
-                foraging_category = tactic_category
+                foraging_category = tactic_category,
+                evidence_for_discreteness_significance = evidence
                 )
 head(dataTable_map)
 
