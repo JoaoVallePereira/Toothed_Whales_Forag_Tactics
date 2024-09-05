@@ -18,7 +18,7 @@ age_plot <- dataTable %>%
   theme(legend.position = "none",
         text = element_text(size=15))
 age_plot
-# ggsave(file="./figures/age_plot.svg", plot=age_plot, width=10, height=8)
+# ggsave(file="./figures/age_plot.pdf", plot=age_plot, width=10, height=8)
 
 # Plot transmission mode of the putative cultural foraging tactics ----
 transmission_plot <- dataTable %>% 
@@ -64,5 +64,5 @@ tactic_driver_plot <- dataTable %>%
         panel.background = element_blank(),
         text = element_text(size=15)) 
 tactic_driver_plot
-# ggsave(file = "./figures/tactic_driver_plot.svg", plot = tactic_driver_plot, width=10, height=8)
+# ggsave(file = "./figures/tactic_driver_plot.pdf", plot = tactic_driver_plot, width=10, height=8)
 

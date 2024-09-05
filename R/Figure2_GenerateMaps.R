@@ -5,16 +5,16 @@
 ## -------------------------------------------------------------------------- ##
 
 # review
-unique(dataTable$common_name)
-unique(dataTable$region) 
-unique(dataTable$foraging_category) 
-unique(dataTable$putative_cultural_foraging_tactic) 
-summary(dataTable)
+unique(dataTable_map$common_name)
+unique(dataTable_map$region) 
+unique(dataTable_map$foraging_category) 
+unique(dataTable_map$putative_specialised_foraging_tactic) 
+summary(dataTable_map)
 
 # now make behavior specialisation type category a leveled factor, and level
 # by grouping by whether the behavior involves humans or not 
-unique(dataTable$foraging_category)
-dataTable$tactic_cat_fact <- factor(dataTable$foraging_category,
+unique(dataTable_map$foraging_category)
+dataTable_map$tactic_cat_fact <- factor(dataTable_map$foraging_category,
                                       levels = c("Fisheries interaction",
                                                  "Human-cetacean cooperation",
                                                  "Human-mediated feeding",
@@ -27,13 +27,13 @@ dataTable$tactic_cat_fact <- factor(dataTable$foraging_category,
                                                  "Tool use"))
 
 # check
-summary(dataTable$tactic_cat_fact)
+summary(dataTable_map$tactic_cat_fact)
 
 # recategorize the cases that have multiple animals, ID data, and evidence of 
 # social learning 
-dataTable <- dataTable %>%
+dataTable_map <- dataTable_map %>%
   mutate(
-    evidence = ifelse(is.na(putative_cultural_foraging_tactic), "no", putative_cultural_foraging_tactic)
+    evidence = ifelse(is.na(putative_specialised_foraging_tactic), "no", putative_specialised_foraging_tactic)
   )
 
 
@@ -44,15 +44,15 @@ world
 ## globe with data points ## ------------------------------------------------ ##
 
 # make into spatial object 
-dataTable_sf <- st_as_sf(dataTable, coords = c("longitude","latitude"), crs = 4326)
+dataTable_map_sf <- st_as_sf(dataTable_map, coords = c("longitude","latitude"), crs = 4326)
 
 # get interactive plot to check points manually
-mapview::mapview(dataTable_sf)
+mapview::mapview(dataTable_map_sf)
 
 # fill circles if they have evidence for putative cultural trait
 # get the no evidence separate from the yes evidence
-nos <- filter(dataTable_sf, evidence == "no")
-yes <- filter(dataTable_sf, evidence == "yes")
+nos <- filter(dataTable_map_sf, evidence == "no")
+yes <- filter(dataTable_map_sf, evidence == "yes")
 
 # make the map
 ggplot() +
@@ -62,15 +62,15 @@ ggplot() +
   theme_void() 
 
 # save the map 
-ggsave(here("outputs","figure2_map_case_points_fill_by_evidence_2024Aug27.pdf"),
-       width = 12, height = 6, units = "in", dpi = 500)
+# ggsave(here("figures","figure2_map_case_points_fill_by_evidence.pdf"),
+       # width = 12, height = 6, units = "in", dpi = 500)
 
 ## regional insets with points ## -------------------------------------------- ##
 
 ## Hawaii
 ggplot() +
   geom_sf(data = world, color = NA, fill = "gray80") +
-  geom_sf(data = dataTable_sf, aes(fill = evidence), color = "black", shape = 21, size = 4.5) +
+  geom_sf(data = dataTable_map_sf, aes(fill = evidence), color = "black", shape = 21, size = 4.5) +
   scale_fill_manual(values = c("white","black")) +
   coord_sf(xlim = c(-161, -154),
            ylim = c(18, 23),
@@ -80,14 +80,14 @@ ggplot() +
     legend.position = "none"
   )
 
-ggsave(here("outputs","hawaii_pts.pdf"), width = 5, height = 4, units = "in",
-       dpi = 500)
+# ggsave(here("figures","hawaii_pts.pdf"), width = 5, height = 4, units = "in",
+       # dpi = 500)
 
 ## SE Brazil 
 ggplot() +
   #geom_sf(data = world, color = NA, fill = "gray25") +
   geom_sf(data = world, color = NA, fill = "gray80") +
-  geom_sf(data = dataTable_sf, aes(fill = evidence), color = "black", shape = 21, size = 5.5) +
+  geom_sf(data = dataTable_map_sf, aes(fill = evidence), color = "black", shape = 21, size = 5.5) +
   scale_fill_manual(values = c("white","black")) +
   coord_sf(xlim = c(-53, -37.5),
            ylim = c(-32.7, -23.9),
@@ -97,8 +97,8 @@ ggplot() +
     legend.position = "none"
   )
 
-ggsave(here("outputs","se_brazil_pts.pdf"), width = 4, height = 4, units = "in",
-       dpi = 500)
+# ggsave(here("figures","se_brazil_pts.pdf"), width = 4, height = 4, units = "in",
+       # dpi = 500)
 
 ## Eastern Australia
 ggplot() +
@@ -114,8 +114,8 @@ ggplot() +
     legend.position = "none"
   )
 
-ggsave(here("outputs","east_aus_pts.pdf"), width = 3, height = 3, units = "in",
-       dpi = 500)
+# ggsave(here("figures","east_aus_pts.pdf"), width = 3, height = 3, units = "in",
+       # dpi = 500)
 
 ## sub-regional insets with points colored by tactic ## --------------------- ##
 
@@ -141,8 +141,8 @@ ggplot() +
     legend.position = "none"
   )
 
-ggsave(here("outputs","gulf_of_mx_caribbean_colored_by_tactic_category_fill_by_evidence_2024Aug27.pdf"),
-       width = 5, height = 4, units = "in", dpi = 500)
+# ggsave(here("Figures","gulf_of_mx_caribbean_colored_by_tactic_category_fill_by_evidence.pdf"),
+       # width = 5, height = 4, units = "in", dpi = 500)
 
 # map of sarasota bay specifically
 ggplot() +
@@ -159,8 +159,8 @@ ggplot() +
   theme(
     legend.position = "none"
   )
-ggsave(here("outputs","sarasota_bay_colored_by_tactic_category_fill_by_evidence_2024Aug27.pdf"),
-       width = 3, height = 3, units = "in")
+# ggsave(here("figures","sarasota_bay_colored_by_tactic_category_fill_by_evidence.pdf"),
+       # width = 3, height = 3, units = "in")
 
 
 ## Europe ## ---------------------------------------------------------------- ##
@@ -178,7 +178,7 @@ ggplot() +
     legend.position = "none"
   )
 
-ggsave(here("outputs","europe_fill_by_evidence_2024Aug27.pdf"), width = 6, height = 4, units = "in")
+# ggsave(here("figures","europe_fill_by_evidence.pdf"), width = 6, height = 4, units = "in")
 
 # Lampedusa island zoomed in
 ggplot() +
@@ -193,7 +193,7 @@ ggplot() +
     legend.position = "none"
   )
 
-ggsave(here("outputs","lampedusa_island_fill_by_evidence_2024Aug27.pdf"), width = 4, height = 4, units = "in")
+# ggsave(here("figures","lampedusa_island_fill_by_evidence.pdf"), width = 4, height = 4, units = "in")
 
 
 ## Western Australia ## ------------------------------------------------------ ##
@@ -214,8 +214,8 @@ ggplot() +
     legend.position = "none"
   )
 
-ggsave(here("outputs","shark_bay_colored_by_specialization_category_fill_by_evidence_2024Aug27.pdf"),
-       width = 2.5, height = 2.5, units = "in")
+# ggsave(here("figures","shark_bay_colored_by_specialization_category_fill_by_evidence.pdf"),
+       # width = 2.5, height = 2.5, units = "in")
 
 
 # map of bunbury
@@ -234,8 +234,8 @@ ggplot() +
     legend.position = "none"
   )
 
-ggsave(here("outputs","bunbury_colored_by_specialization_category_fill_by_evidence_2024Aug28.pdf"),
-       width = 2, height = 2, units = "in")
+# ggsave(here("figures","bunbury_colored_by_specialization_category_fill_by_evidence.pdf"),
+       # width = 2, height = 2, units = "in")
 
 ## Northern South China Sea ## ----------------------------------------------- ##
 
@@ -255,8 +255,8 @@ ggplot() +
     legend.position = "none"
   )
 
-ggsave(here("outputs","n_southchinasea_colored_by_specialization_category_fill_by_evidence_2024Aug28.pdf"),
-       width = 4, height = 3, units = "in")
+# ggsave(here("figures","n_southchinasea_colored_by_specialization_category_fill_by_evidence.pdf"),
+       # width = 4, height = 3, units = "in")
 
 # Zhanjiang area 
 ggplot() +
@@ -274,8 +274,8 @@ ggplot() +
     legend.position = "none"
   )
 
-ggsave(here("outputs","zhanjiang_colored_by_specialization_category_fill_by_evidence_2024Aug28.pdf"),
-       width = 2.5, height = 1.75, units = "in")
+# ggsave(here("figures","zhanjiang_colored_by_specialization_category_fill_by_evidence.pdf"),
+       # width = 2.5, height = 1.75, units = "in")
 
 # Hong Kong area 
 ggplot() +
@@ -293,5 +293,5 @@ ggplot() +
     legend.position = "none"
   )
 
-ggsave(here("outputs","hongkong_colored_by_specialization_category_fill_by_evidence_2024Aug28.pdf"),
-       width = 2.5, height = 2, units = "in")
+# ggsave(here("figures","hongkong_colored_by_specialization_category_fill_by_evidence.pdf"),
+       # width = 2.5, height = 2, units = "in")

@@ -14,6 +14,7 @@ if(!require(ggraph)){install.packages('ggraph'); library(ggraph)}
 if(!require(igraph)){install.packages('igraph'); library(igraph)}
 if(!require(devtools)){install.packages('devtools'); library(devtools)}
 if(!require(webshot)){install.packages('webshot'); library(webshot)}
+if(!require(mapview)){install.packages('mapview'); library(mapview)}
 
 webshot::install_phantomjs()
 # devtools::install_github("ropensci/rnaturalearthhires")
