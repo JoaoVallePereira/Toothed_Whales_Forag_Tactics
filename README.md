@@ -34,7 +34,7 @@ DOI:
 ## Contents
 
 1. Files and directions
-    * 1.1. Data and script to reproduce the analysis
+    * 1.1. Data and script to reproduce the figures
     * 1.2. Instructions
 
 ### 1.1. Data and script to reproduce the analysis
@@ -42,4 +42,19 @@ DOI:
 - `Setup.R`: This file contains the code to install and load the packages, and the functions required to run the analyses in `.R`.
 
 - `.R`: This file contains the code to manage, clean, and prepare the data to be run in the `.R` script.
+- 
+
+### 1.2. Instructions
+
+Scripts contain relative paths to source functions and load data. Open an R session and set the working directory to the root of the project for better compatibility with relative paths. The tree below show how files were organized in the project folder:
+
+```bash
+Toothed_Whales_Forag_Tactics/
+├── R/                        # contains the code to setup generate the figures
+├── figures/                  # stores tables and figures # NOTHING FOR NOW
+└── man/                      # contains figures to implement in the GitHub layout
+```
+**Note:** The workflow to run at the time of this message is:  `Setup.R` &rarr; `Load_data.R` &rarr; `FigureX_GenerateX.R`. 
+
+--------------------------------------
 
