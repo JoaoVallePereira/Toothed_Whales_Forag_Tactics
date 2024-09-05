@@ -29,16 +29,17 @@ Culture—group-typical behaviour shared by community members that rely on socia
 
 DOI: 
 
+### Data is available at ZENODO LINK
 
 ## Contents
 
 1. Files and directions
-    * 1.1. Data and script to reproduce the figures
+    * 1.1. Scripts to reproduce the figures
     * 1.2. Instructions
 
 ### 1.1. Scripts to reproduce the figures
 
-- `Setup.R`: This file contains the code to install and load the packages and the functions required to run the figures in `.R`.
+- `Setup.R`: This file contains the code to install and load the packages and the functions required to run the figures in all the following scripts.
 - `Load_Data.R`: This file contains the code to load and clean the data.
 - `Figure2_GenerateBarplots.R`: This file contains the code to generate the bar plots from Figure 2 of the paper.
 - `Figure2_GenerateCircleplot.R`: This file contains the code to generate the circle plot from Figure 2 of the paper.
