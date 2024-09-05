@@ -48,11 +48,15 @@ DOI:
 - `Figure3_GenerateNetworks.R`: This file contains the code to generate the networks from Figure 3 of the paper.
 
 - `Figure2_GenerateBarplots.R`: This file contains the code to manage, clean, and prepare the data to be run in the `.R` script.
+  
 
+## Main data table
 | Variable                                 | Class              | Description                            |
 |------------------------------------------|--------------------|----------------------------------------|
 | common_name                              | Character          | The common name of the species exhibiting the foraging tactic   |
 | latin_name                               | Character          | The Latin name of the species exhibiting the foraging tactic|
+| country                                  | Character          | The country that has jurisdiction over the region where the foraging tactic occurs|
+| region                                   | Character          | The region where the foraging tactic occurs|
 | animal_identity_data                     | Character          | Whether identity information for the individual(s) exhibiting the foraging tactic is available    |
 | number_of_animals                        | Character          | The number of different individuals exhibiting the foraging tactic                                       |
 | foraging_category                        | Character          | The broad foraging category that the specific foraging tactic most closely aligns with                      |
@@ -78,6 +82,23 @@ DOI:
 | proposed_conservation_actions_category   | Character          | Proposed conservation actions related to the foraging tactic, the type of IUCN-CMP first-level action classification    |
 | proposed_conservation_actions_subcategory| Character          | Proposed conservation actions related to the foraging tactic, the type of IUCN-CMP second-level action classification   |
 | references                               | Character          | Reviewed primary and secondary literature used to fill out metrics for the foraging tactic |
+
+## Maps data table
+
+| Variable                                 | Class              | Description                            |
+|------------------------------------------|--------------------|----------------------------------------|
+| common_name                              | Character          | The common name of the species exhibiting the foraging tactic   |
+| latin_name                               | Character          | The Latin name of the species exhibiting the foraging tactic|
+| orca_ecotype                             | Character          | The orca ecotypes exhibiting the foraging tactic    |
+| country                                  | Character          | The country that has jurisdiction over the region where the foraging tactic occurs|
+| region                                   | Character          | The region where the foraging tactic occurs|
+| latitude                                 | Numeric            | The latitude where the foraging tactic occurs|
+| longitude                                | Numeric            | The longitude where the foraging tactic occurs|
+| putative_specialised_foraging_tactic     | Character          | Foraging tactics having both individual identity information and evidence of being shared among conspecifics|
+| foraging_category                        | Character          | The broad foraging category that the specific foraging tactic most closely aligns with                      |
+| tactic_cat_fact                          | Factor (10 levels) | The broad foraging category that the specific foraging tactic most closely aligns with                    |
+| evidence_for_discreteness_significance   | Character          | Evidence for differences in diet or foraging techniques that are stable                                       |
+
 
 ### 1.2. Instructions
 
