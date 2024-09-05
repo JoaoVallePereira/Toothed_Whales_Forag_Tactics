@@ -47,7 +47,6 @@ DOI:
 - `Figure2_GenerateMaps.R`: This file contains the code to generate the map from Figure 2 of the paper.
 - `Figure3_GenerateNetworks.R`: This file contains the code to generate the networks from Figure 3 of the paper.
 
-- `Figure2_GenerateBarplots.R`: This file contains the code to manage, clean, and prepare the data to be run in the `.R` script.
   
 
 ## Main data table
