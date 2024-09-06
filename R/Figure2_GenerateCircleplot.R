@@ -62,9 +62,9 @@ ggraph_circle <- mygraph %>%
   ggraph::ggraph(layout = 'circlepack', weight = size) + 
   geom_node_circle(aes(fill = factor(tactic))) +
   geom_node_text(aes(label = prey), size = 2) +
-  scale_fill_manual(values = colorblind_safe_cat) +
+  scale_fill_manual(values = c(NA,colorblind_safe_cat), na.value = "white") +
   theme_void() 
 ggraph_circle
-# ggsave("./figures/ggraph_circle.pdf", dpi = 300)
+ggsave("./figures/ggraph_circle.pdf", dpi = 300)
 
 
